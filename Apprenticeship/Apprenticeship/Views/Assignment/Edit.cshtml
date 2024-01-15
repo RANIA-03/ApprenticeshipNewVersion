@@ -1,0 +1,115 @@
+﻿ @using Apprenticeship.DTO
+@using Apprenticeship.Data.Entities
+@model AssignmentDTO
+<link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/css/core/libs.min.css" />
+<link rel="stylesheet" href="~/assets/css/hope-ui.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/custom.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/dark.min.css" />
+<link rel="stylesheet" href="~/assets/css/customizer.min.css" />
+<link rel="stylesheet" href="~/assets/css/rtl.min.css" />
+
+<div style="display: flex;justify-content: flex-end;margin-right: 92px">
+    <div class=" col-xl-9 col-lg-8">
+        <div class=" card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Edit Assignment</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="new-user-info">
+                    <!-- ***************************************** -->
+                    <form method="post" action="/Assignment/Edited?assignmentId=@Model.assignmentId&trainingId=@Model.trainingId" enctype="multipart/form-data" class="mt-5">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="assignmentTitle">Assignment Title:</label>
+                            <input type="text" class="form-control" asp-for="assignmentTitle" placeholder=" " value="@Model.assignmentTitle">
+                            <span asp-validation-for="assignmentTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="assignmentDescription">Assignment Description:</label>
+                            <input type="text" class="form-control" asp-for="assignmentDescription" placeholder=" " value="@Model.assignmentDescription">
+                            <span asp-validation-for="assignmentDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="assignmentNotes">Assignment Notes:</label>
+                            <input type="text" class="form-control" asp-for="assignmentNotes" placeholder=" " value="@Model.assignmentNotes">
+                            <span asp-validation-for="assignmentNotes" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="startDate">Choose Start Date</label>
+                            <input type="datetime-local" class="form-control" asp-for="startDate" aria-required="true"
+                                   value="@Model.startDate.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="startDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="endDate">Choose End Date</label>
+                            <input type="datetime-local" class="form-control" asp-for="endDate" aria-required="true"
+                                   value="@Model.endDate.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="endDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label asp-for="objectiveIds" class="form-label">Student:</label>
+                            <select asp-for="objectiveIds" class="selectpicker form-control" data-style="py-0">
+                                <option>Select Objective</option>
+                                @foreach (var o in (List<TrainingObjectives>)(ViewBag.assignmentObjectives))
+                                {
+                                    var isSelected = false;
+
+                                    foreach (var os in (List<AssignmentObjectives>)(ViewBag.assignmentObjectivesSelected))
+                                    {
+                                        if (o.objectiveId == os.objectiveId)
+                                        {
+                                            isSelected = true;
+                                            break;
+                                        }
+                                    }
+                                    if (isSelected)
+                                    {
+                                        <option selected value="@o.objectiveId">@o.objective.objectiveName</option>
+
+                                    }
+                                    else
+                                    {
+                                        <option value="@o.objectiveId">@o.objective.objectiveName</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="objectiveIds" class="text-danger"></span>
+                        </div>
+                        
+                            @foreach (var d in (List<Document>)(ViewBag.documents))
+                            {
+                                <div class="form-group col-md-12">
+                                    <a href="/Assignment/GetFile?documentId=@d.documentId" target="_blank">@d.name</a>
+                                    <a href="/Assignment/DeleteDocument?documentId=@d.documentId&assignmentId=@Model.assignmentId&trainingId=@Model.trainingId">Delete</a>
+							    </div>
+                            }
+                            @if (((List<Document>)ViewBag.documents).Count == 0)
+                            {
+                                <div class="form-group col-md-12">
+                                    <label class="form-label" for="formFile">Assignment Documents:</label>
+                                    <input type="file" class="custom-file-input my-input" name="formFile">
+                                </div>
+                            }
+                        
+                       
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <a href="/TeamLeader/Assignments?trainingId=@Model.trainingId" class="btn btn-danger">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/core/libs.min.js"></script>
+<script src="~/assets/js/core/external.min.js"></script>
+<script src="~/assets/js/charts/widgetcharts.js"></script>
+<script src="~/assets/js/charts/vectore-chart.js"></script>
+<script src="~/assets/js/charts/dashboard.js"></script>
+<script src="~/assets/js/plugins/fslightbox.js"></script>
+<script src="~/assets/js/plugins/setting.js"></script>
+<script src="~/assets/js/plugins/slider-tabs.js"></script>
+<script src="~/assets/js/plugins/form-wizard.js"></script>
+<script src="~/assets/js/hope-ui.js" defer></script>

@@ -1,0 +1,290 @@
+﻿@using Apprenticeship.Data.Entities
+<link href="~/assets2/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="~/css/form.css" />
+<style>
+	tbody tr:hover {
+		background-color: rgb(197, 228, 235) !important;
+	}
+</style>
+<div style="    padding-left: 294px;
+    margin-top: 40px;
+    padding-right: 50px;">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<div class="table-responsive">
+					<div class="rowDispaly" style="display: flex;justify-content: space-between;width: 100%;align-items: center;margin-bottom: 20px;">
+						<h4 class="card-title">Trainings</h4>
+						<a href="/Training/Add" class="btn btn-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+								<path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H1a.5.5 0 0 1 0-1h13.5a.5.5 0 0 1 .5.5z" />
+							</svg>
+							Training 
+						</a>
+
+					</div>
+					<table id="zero_config" class="table table-striped table-bordered no-wrap">
+						<thead>
+							<tr>
+								<th>Student</th>
+								<th>Supervisor</th>
+								<th>Team Leader</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Objectives</th>
+								<th>Edit || Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var training in (List<Training>)(ViewBag.trainings))
+							{
+								<tr>
+									<td>@training.student.fristName @training.student.lastName</td>
+									<td>@training.schoolSupervisor.fristName @training.schoolSupervisor.lastName</td>
+									<td>@training.teamLeader.fristName @training.teamLeader.lastName</td>
+									<td>@training.startDate.ToString("yyyy-MM-dd")</td>
+									<td>@training.endDate.ToString("yyyy-MM-dd")</td>
+									<td>
+										@foreach (var trainingObjective in training.trainingObjectives)
+										{
+											<span>@trainingObjective.objective.objectiveName</span>
+											<br />
+										}
+									</td>
+									<td>
+										<div style="float:left;">
+											<a class="btn btn-sm btn-icon text-primary flex-end"
+											   data-bs-toggle="tooltip" title="Edit User" href="/Training/Edit?trainingId=@training.trainingId">
+												<span class="btn-inner">
+													<svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
+														 xmlns="http://www.w3.org/2000/svg">
+														<path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341"
+															  stroke="currentColor" stroke-width="1.5"
+															  stroke-linecap="round" stroke-linejoin="round"></path>
+														<path fill-rule="evenodd" clip-rule="evenodd"
+															  d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z"
+															  stroke="currentColor" stroke-width="1.5"
+															  stroke-linecap="round" stroke-linejoin="round"></path>
+														<path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor"
+															  stroke-width="1.5" stroke-linecap="round"
+															  stroke-linejoin="round"></path>
+													</svg>
+												</span>
+											</a>
+											<a class="btn btn-sm btn-icon text-danger " data-bs-toggle="tooltip" id="delete-training-btn-@training.trainingId"
+											   title="Delete User" href="/Training/Delete?trainingId=@training.trainingId">
+												<span class="btn-inner">
+													<svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
+														 xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+														<path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+															  stroke="currentColor" stroke-width="1.5"
+															  stroke-linecap="round" stroke-linejoin="round"></path>
+														<path d="M20.708 6.23975H3.75" stroke="currentColor"
+															  stroke-width="1.5" stroke-linecap="round"
+															  stroke-linejoin="round"></path>
+														<path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+															  stroke="currentColor" stroke-width="1.5"
+															  stroke-linecap="round" stroke-linejoin="round"></path>
+													</svg>
+												</span>
+											</a>
+										</div>
+									</td>
+								</tr>
+							}
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Student</th>
+								<th>Supervisor</th>
+								<th>Team Leader</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Objectives</th>
+								<th>Edit || Delete</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function updateReportStatus(newStatusId, reportId) {
+		var assignmentId = @Model;
+		var url = '/Report/EditeReportStatus?reportId=' + reportId + '&reportStatusId=' + newStatusId + '&assignmentId=' + assignmentId;
+		window.location.href = url;
+	}
+</script>
+<script src="~/assets2/libs/jquery/dist/jquery.min.js"></script>
+<script src="~/dist/js/app-style-switcher.js"></script>
+<script src="~/assets2/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+
+@* <link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/css/core/libs.min.css" />
+<link rel="stylesheet" href="~/assets/css/hope-ui.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/custom.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/dark.min.css" />
+<link rel="stylesheet" href="~/assets/css/customizer.min.css" />
+<link rel="stylesheet" href="~/assets/css/rtl.min.css" />
+<style>
+	tbody tr:hover {
+		background-color: rgb(197, 228, 235) !important;
+	}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<div class="conatiner-fluid content-inner mt-n5 py-0">
+	<div class="row">
+		<div class="col-sm-12" style="margin-top: 100px;margin-left: 250px;width: 83%;">
+			<div class="card">
+				<div class="card-header d-flex justify-content-between">
+					<div class="header-title" style="display: flex;justify-content: space-between;width: 100%;align-items: center;">
+						<h4 class="card-title">Trainings</h4>
+						<a href="/Training/Add" class="btn btn-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+								<path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H1a.5.5 0 0 1 0-1h13.5a.5.5 0 0 1 .5.5z" />
+							</svg>
+							Training
+						</a>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table id="datatable" class="table table-striped" data-toggle="data-table">
+							<thead>
+								<tr>
+									<th>Student</th>
+									<th>Supervisor</th>
+									<th>Team Leader</th>
+									<th>Start Date</th>
+									<th>End Date</th>
+									<th>Objectives</th>
+									<th>Edit || Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- ************************************************ -->
+								@foreach (var training in (List<Training>)(ViewBag.trainings))
+								{
+									<tr>
+										<td>@training.student.fristName @training.student.lastName</td>
+										<td>@training.schoolSupervisor.fristName @training.schoolSupervisor.lastName</td>
+										<td>@training.teamLeader.fristName @training.teamLeader.lastName</td>
+										<td>@training.startDate.ToString("yyyy-MM-dd")</td>
+										<td>@training.endDate.ToString("yyyy-MM-dd")</td>
+										<td>
+											@foreach (var trainingObjective in training.trainingObjectives)
+											{
+												<span>@trainingObjective.objective.objectiveName</span>
+												<br />
+											}
+										</td>
+										<td>
+											<div style="float:left;">
+												<a class="btn btn-sm btn-icon text-primary flex-end"
+												   data-bs-toggle="tooltip" title="Edit User" href="/Training/Edit?trainingId=@training.trainingId">
+													<span class="btn-inner">
+														<svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
+															 xmlns="http://www.w3.org/2000/svg">
+															<path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341"
+																  stroke="currentColor" stroke-width="1.5"
+																  stroke-linecap="round" stroke-linejoin="round"></path>
+															<path fill-rule="evenodd" clip-rule="evenodd"
+																  d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z"
+																  stroke="currentColor" stroke-width="1.5"
+																  stroke-linecap="round" stroke-linejoin="round"></path>
+															<path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor"
+																  stroke-width="1.5" stroke-linecap="round"
+																  stroke-linejoin="round"></path>
+														</svg>
+													</span>
+												</a>
+												<a class="btn btn-sm btn-icon text-danger " data-bs-toggle="tooltip" id="delete-training-btn-@training.trainingId"
+												   title="Delete User" href="/Training/Delete?trainingId=@training.trainingId">
+													<span class="btn-inner">
+														<svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
+															 xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+															<path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+																  stroke="currentColor" stroke-width="1.5"
+																  stroke-linecap="round" stroke-linejoin="round"></path>
+															<path d="M20.708 6.23975H3.75" stroke="currentColor"
+																  stroke-width="1.5" stroke-linecap="round"
+																  stroke-linejoin="round"></path>
+															<path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+																  stroke="currentColor" stroke-width="1.5"
+																  stroke-linecap="round" stroke-linejoin="round"></path>
+														</svg>
+													</span>
+												</a>
+											</div>
+										</td>
+									</tr>
+								}
+							</tbody>
+							<tfoot>
+								<tr>
+									<th>Student</th>
+									<th>Supervisor</th>
+									<th>Team Leader</th>
+									<th>Start Date</th>
+									<th>End Date</th>
+									<th>Objectives</th>
+									<th>Edit || Delete</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="~/assets/js/core/libs.min.js"></script>
+<script src="~/assets/js/core/external.min.js"></script>
+<script src="~/assets/js/charts/widgetcharts.js"></script>
+<script src="~/assets/js/charts/vectore-chart.js"></script>
+<script src="~/assets/js/charts/dashboard.js"></script>
+<script src="~/assets/js/plugins/fslightbox.js"></script>
+<script src="~/assets/js/plugins/setting.js"></script>
+<script src="~/assets/js/plugins/slider-tabs.js"></script>
+<script src="~/assets/js/plugins/form-wizard.js"></script>
+<script src="~/assets/js/hope-ui.js" defer></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		// Handle delete button click
+	foreach (var training in (List<Training>)(ViewBag.trainings))
+	{
+		var trainingId = training.trainingId;
+		var deleteBtn = document.getElementById('delete-training-btn-' + trainingId);
+
+		if (deleteBtn)
+		{
+			deleteBtn.addEventListener('click', function() {
+				// Show SweetAlert confirmation
+				Swal.fire({
+				title: 'Are you sure?',
+	text: 'You won\'t be able to revert this!',
+	icon: 'warning',
+	showCancelButton: true,
+	confirmButtonColor: '#3085d6',
+	cancelButtonColor: '#d33',
+	confirmButtonText: 'Yes, delete it!'
+				}).then((result) =>
+				{
+					// If user clicks "Yes"
+					if (result.isConfirmed)
+					{
+						// Perform the delete operation
+						window.location.href = '/Training/Delete?trainingId=' + trainingId;
+					}
+				});
+			});
+		}
+	}
+		});
+</script>
+
+ *@

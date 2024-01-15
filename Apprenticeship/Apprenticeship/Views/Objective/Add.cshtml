@@ -1,0 +1,48 @@
+﻿@using Apprenticeship.DTO
+@using Apprenticeship.Data.Entities
+@model ObjectiveDTO
+<link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/css/core/libs.min.css" />
+<link rel="stylesheet" href="~/assets/css/hope-ui.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/custom.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/dark.min.css" />
+<link rel="stylesheet" href="~/assets/css/customizer.min.css" />
+<link rel="stylesheet" href="~/assets/css/rtl.min.css" />
+<div style="display: flex;justify-content: flex-end;margin-right: 92px;margin-top: 40px;">
+    <div class=" col-xl-9 col-lg-8">
+        <div class=" card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Add Objective</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="new-user-info">
+                    <!-- ***************************************** -->
+                    <form method="post" action="/Objective/Insert" class="mt-5">
+
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="objectiveName">Objective Name:</label>
+                            <input type="text" class="form-control" asp-for="objectiveName" placeholder=" ">
+                            <span asp-validation-for="objectiveName" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <a href="/Objective/Index" class="btn btn-danger">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/core/libs.min.js"></script>
+<script src="~/assets/js/core/external.min.js"></script>
+<script src="~/assets/js/charts/widgetcharts.js"></script>
+<script src="~/assets/js/charts/vectore-chart.js"></script>
+<script src="~/assets/js/charts/dashboard.js"></script>
+<script src="~/assets/js/plugins/fslightbox.js"></script>
+<script src="~/assets/js/plugins/setting.js"></script>
+<script src="~/assets/js/plugins/slider-tabs.js"></script>
+<script src="~/assets/js/plugins/form-wizard.js"></script>
+<script src="~/assets/js/hope-ui.js" defer></script>
+

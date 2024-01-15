@@ -1,0 +1,225 @@
+﻿@using Apprenticeship.Data.Entities
+@using Newtonsoft.Json
+@{
+    var x = new List<string>();
+    var y = new List<int>();
+
+    foreach (var s in ViewBag.SchoolsAndStudentCounts)
+    {
+        x.Add(s.SchoolName);
+        y.Add(s.StudentCount);
+    }
+
+    var xValuesJson = JsonConvert.SerializeObject(x);
+    var yValuesJson = JsonConvert.SerializeObject(y);
+}
+<!-- ***************************Dashboard*************************** -->
+@model Person
+<div style="padding-left: 280px;">
+
+<div class="page-breadcrumb" style="padding: 30px 16px 0;">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Welcome @Model.fristName @Model.lastName!</h3>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item">
+                            Dashboard <br />
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <!-- Stat for Total Num -->
+        <div class="card-group" style="margin-bottom: 30px;">
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex d-lg-flex d-md-block align-items-center">
+                    <div>
+                        <div class="d-inline-flex align-items-center">
+                            <h2 class="text-dark mb-1 font-weight-medium">@((ViewBag.trainings as List<Apprenticeship.Data.Entities.Training>)?.Count ?? 0)</h2>
+
+                        </div>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Trainings</h6>
+                    </div>
+                    <div class="ml-auto mt-md-3 mt-lg-0">
+                        <span class="opacity-7 text-muted">
+                            <i data-feather="users"
+                               class="feather-icon"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex d-lg-flex d-md-block align-items-center">
+                    <div>
+                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">@((ViewBag.students as List<Apprenticeship.Data.Entities.Student>)?.Count ?? 0)</h2>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Students</h6>
+                    </div>
+                    <div class="ml-auto mt-md-3 mt-lg-0">
+                        <span class="opacity-7 text-muted"><i data-feather="user"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex d-lg-flex d-md-block align-items-center">
+                    <div>
+                        <div class="d-inline-flex align-items-center">
+                            <h2 class="text-dark mb-1 font-weight-medium">@((ViewBag.schoolSupervisors as List<Apprenticeship.Data.Entities.SchoolSupervisor>)?.Count ?? 0)</h2>
+                        </div>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">
+                            School
+                            Supervisors
+                        </h6>
+                    </div>
+                    <div class="ml-auto mt-md-3 mt-lg-0">
+                        <span class="opacity-7 text-muted"><i data-feather="user-check" class="feather-icon"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex d-lg-flex d-md-block align-items-center">
+                    <div>
+                        <h2 class="text-dark mb-1 font-weight-medium">@((ViewBag.teamLeaders as List<Apprenticeship.Data.Entities.Training>)?.Count ?? 0)</h2>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Team Leaders</h6>
+                    </div>
+                    <div class="ml-auto mt-md-3 mt-lg-0">
+                        <span class="opacity-7 text-muted"><i data-feather="star"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Stat for Reports -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-core.min.js"></script>
+                    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-pie.min.js"></script>
+                    <h4 class="card-title">Total Reports</h4>
+                    <div id="dountChart" class="mt-2" style="height: 388px; width: 100%;"></div>
+                </div>
+            </div>
+            <script>
+                anychart.onDocumentReady(function () {
+                    var approvedCount = @ViewBag.ApprovedCount;
+                    var rejectedCount = @ViewBag.RejectedCount;
+                    var pendingCount = @ViewBag.PendingCount;
+
+                    var data = anychart.data.set([
+                        { x: "Pending", value: pendingCount },
+                        { x: "Rejected", value: rejectedCount },
+                        { x: "Approved", value: approvedCount },
+                    ]);
+
+                    var chart = anychart
+                        .pie(data)
+                        .innerRadius("42%");
+
+                    chart.palette(["#007bff", "#dc3545", "#17a2b8"]);
+
+                    chart.container("dountChart");
+                    chart.draw();
+                });
+            </script>
+        </div>
+        <!-- Stat for Students from each School -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-body" style="height: 469px;">
+                    <h4 class="card-title">Student in Each School<br><br><br><br></h4>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                    <canvas id="numOfStudentsInEachSchoolChart" style="width:100%;max-width:600px"></canvas>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var xValues = @Html.Raw(xValuesJson);
+                            var yValues = @Html.Raw(yValuesJson);
+
+                            console.log(xValues);
+                            console.log(yValues);
+
+                            var paletteColors = ["#007bff", "#dc3545", "#17a2b8", "#007bff", "#dc3545", "#17a2b8", "#007bff", "#dc3545", "#17a2b8", "#007bff", "#dc3545", "#17a2b8"];
+
+                            new Chart("numOfStudentsInEachSchoolChart", {
+                                type: "bar",
+                                data: {
+                                    labels: xValues,
+                                    datasets: [{
+                                        backgroundColor: paletteColors.slice(0, xValues.length),
+                                        data: yValues
+                                    }]
+                                },
+                                options: {
+                                    legend: { display: false },
+                                    title: {
+                                        display: true,
+                                        text: "Number of Students In Each School"
+                                    }
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Recent Activity for Reports-->
+        @functions {
+            string GetCardColor(int reportStatusId)
+            {
+                switch (reportStatusId)
+                {
+                    case 1:
+                        return "#17a2b8";
+                    case 2:
+                        return "#dc3545";
+                    case 3:
+                        return "#007bff";
+                    default:
+                        return "#ffffff";
+                }
+            }
+        }
+
+        @foreach (var report in (List<Report>)(ViewBag.lastThreeReports))
+        {
+            <div class="col-md-4">
+                <div class="card border-danger">
+                    <div class="card-header" style="background-color: @GetCardColor(report.reportStatusId)">
+                        <h4 class="mb-0 text-white">@report.reportName</h4>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">@report.reportNotes</h3>
+                        <p class="card-text">@report.reportDescription</p>
+                        @if (report.document != null)
+                        {
+                            <a href="/Report/GetFile?documentId=@report.document.documentId" target="_blank" class="btn btn-secondary">Document Attached</a>
+                        }
+                        else
+                        {
+                            <span>No Document Attached</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    </div>
+</div>

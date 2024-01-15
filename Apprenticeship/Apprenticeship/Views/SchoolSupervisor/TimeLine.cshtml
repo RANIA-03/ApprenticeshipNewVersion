@@ -1,0 +1,97 @@
+﻿<link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/css/core/libs.min.css" />
+<link rel="stylesheet" href="~/assets/css/hope-ui.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/custom.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/dark.min.css" />
+<link rel="stylesheet" href="~/assets/css/customizer.min.css" />
+<link rel="stylesheet" href="~/assets/css/rtl.min.css" />
+<style>
+    .myDocument{
+        border-radius: 100px;
+        font-size: small;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12" style="padding-left: 250px">
+        <div class="card">
+            <div class="card-body">
+                <div class="iq-timeline m-0 d-flex align-items-center justify-content-between position-relative">
+                    <ul class="list-inline p-0 m-0 w-100">
+                        @foreach (var r in ViewBag.reportsLog)
+                        {
+                            
+                            <li>
+                                @if (r.reportStatus.reportStatusName == "Pending")
+                                {
+                                    <div class="time bg-primary">
+                                        <span>@r.logDate.ToString("MMM dd, yyyy")</span>
+                                    </div>
+                                    <div class="content">
+                                        <div class="timeline-dots new-timeline-dots border-primary"></div>
+                                        <h6 class="mb-1">@r.reportName</h6>
+                                        <div class="d-inline-block w-100">
+                                            <p>@r.reportDescription</p>
+                                            <p>@r.reportNotes</p>
+                                            @if (r.document != null)
+                                            {
+                                                <a href="/Report/GetFile?documentId=@r.document.documentId" class="btn btn-primary myDocument" target="_blank">@r.document.name</a>
+                                            }
+                                           
+                                        </div>
+                                    </div>
+                                }
+                                else if (r.reportStatus.reportStatusName == "Rejected")
+                                {
+                                    <div class="time bg-danger">
+                                        <span>@r.logDate.ToString("MMM dd, yyyy")</span>
+                                    </div>
+                                    <div class="content">
+                                        <div class="timeline-dots new-timeline-dots border-danger"></div> 
+                                        <h6 class="mb-1">@r.reportName</h6>
+                                        <div class="d-inline-block w-100">
+                                            <p>@r.reportDescription</p>
+                                            <p>@r.reportNotes</p>
+                                            @if (r.document != null)
+                                            {
+                                                <a href="/Report/GetFile?documentId=@r.document.documentId" class="btn btn-danger myDocument" target="_blank">@r.document.name</a> 
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (r.reportStatus.reportStatusName == "Approved")
+                                {
+                                    <div class="time bg-success">
+                                        <span>@r.logDate.ToString("MMM dd, yyyy")</span>
+                                    </div>
+                                    <div class="content">
+                                        <div class="timeline-dots new-timeline-dots border-success"></div>
+                                        <h6 class="mb-1">@r.reportName</h6>
+                                        <div class="d-inline-block w-100">
+                                            <p>@r.reportDescription</p>
+                                            <p>@r.reportNotes</p>
+                                            @if (r.document != null)
+                                            {
+                                                <a href="/Report/GetFile?documentId=@r.document.documentId" class="btn btn-success myDocument" target="_blank">@r.document.name</a>
+                                            }
+                                            
+                                        </div>
+                                    </div>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/core/libs.min.js"></script>
+<script src="~/assets/js/core/external.min.js"></script>
+<script src="~/assets/js/charts/widgetcharts.js"></script>
+<script src="~/assets/js/charts/vectore-chart.js"></script>
+<script src="~/assets/js/charts/dashboard.js"></script>
+<script src="~/assets/js/plugins/fslightbox.js"></script>
+<script src="~/assets/js/plugins/setting.js"></script>
+<script src="~/assets/js/plugins/slider-tabs.js"></script>
+<script src="~/assets/js/plugins/form-wizard.js"></script>
+<script src="~/assets/js/hope-ui.js" defer></script>

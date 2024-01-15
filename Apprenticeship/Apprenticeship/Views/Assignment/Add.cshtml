@@ -1,0 +1,169 @@
+﻿@using Apprenticeship.DTO
+@using Apprenticeship.Data.Entities
+@model AssignmentDTO
+<link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/css/core/libs.min.css" />
+<link rel="stylesheet" href="~/assets/css/hope-ui.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/custom.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/dark.min.css" />
+<link rel="stylesheet" href="~/assets/css/customizer.min.css" />
+<link rel="stylesheet" href="~/assets/css/rtl.min.css" />
+
+<div style="display: flex;justify-content: flex-end;margin-right: 92px;margin-top: 40px;">
+    <div class=" col-xl-9 col-lg-8">
+        <div class=" card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Add Assignment</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="new-user-info">
+                    <!-- ***************************************** -->
+                    <form method="post" action="/Assignment/Insert?trainingId=@Model.trainingId&" enctype="multipart/form-data" class="mt-5">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="assignmentTitle">Assignment Title:</label>
+                            <input type="text" class="form-control" asp-for="assignmentTitle" placeholder=" ">
+                            <span asp-validation-for="assignmentTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="assignmentDescription">Assignment Description:</label>
+                            <input type="text" class="form-control" asp-for="assignmentDescription" placeholder=" ">
+                            <span asp-validation-for="assignmentDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="assignmentNotes">Assignment Notes:</label>
+                            <input type="text" class="form-control" asp-for="assignmentNotes" placeholder=" ">
+                            <span asp-validation-for="assignmentNotes" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            @{
+                                DateTime defaultStartDate = DateTime.Now.AddMinutes(5);
+                                string defaultStartDateString = defaultStartDate.ToString("yyyy-MM-ddTHH:mm");
+                            }
+                            <label class="form-label" asp-for="startDate">Choose Start Date</label>
+                            <input type="datetime-local" class="form-control" asp-for="startDate" aria-required="true"
+                                   value="@defaultStartDateString" />
+                            <span asp-validation-for="startDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            @{
+                                DateTime currentDate = DateTime.Now;
+                                DateTime nextDay = currentDate.AddDays(2);
+                            }
+                            <label class="form-label" asp-for="endDate">Choose End Date</label>
+                            <input type="datetime-local" class="form-control" asp-for="endDate" aria-required="true"
+                                   value="@nextDay.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="endDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label asp-for="objectiveIds" class="form-label">Student:</label>
+                            <select asp-for="objectiveIds" class="selectpicker form-control" data-style="py-0">
+                                <option>Select Objective</option>
+                                @foreach (var objective in (List<TrainingObjectives>)(ViewBag.objectives))
+                                {
+                                    <option value="@objective.objectiveId">@objective.objective.objectiveName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="objectiveIds" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="formFile">Assignment Documents:</label>
+                            <input type="file" class="custom-file-input my-input" name="formFile">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <a href="/Assignment/Index" class="btn btn-danger">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/core/libs.min.js"></script>
+<script src="~/assets/js/core/external.min.js"></script>
+<script src="~/assets/js/charts/widgetcharts.js"></script>
+<script src="~/assets/js/charts/vectore-chart.js"></script>
+<script src="~/assets/js/charts/dashboard.js"></script>
+<script src="~/assets/js/plugins/fslightbox.js"></script>
+<script src="~/assets/js/plugins/setting.js"></script>
+<script src="~/assets/js/plugins/slider-tabs.js"></script>
+<script src="~/assets/js/plugins/form-wizard.js"></script>
+<script src="~/assets/js/hope-ui.js" defer></script>
+@* 
+<link rel="stylesheet" type="text/css" href="~/css/form.css" />
+<div class="bigContainer">
+    <div class="container-fluid mt-2">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-8 col-lg-8">
+                <div class="card myContainer">
+                    <div class="card-body">
+
+                        <h2 style="text-align:center">Add Assignment.</h2>
+                        <form method="post" action="/Assignment/Insert?trainingId=@Model.trainingId&" enctype="multipart/form-data" class="mt-5">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="assignmentTitle">Assignment Title</label>
+                                <input asp-for="assignmentTitle" aria-required="true" class="form-control my-input">
+                                <span asp-validation-for="assignmentTitle" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="assignmentDescription">Assignment Description</label>
+                                <input asp-for="assignmentDescription" aria-required="true" class="form-control my-input">
+                                <span asp-validation-for="assignmentDescription" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="assignmentNotes">Assignment Notes</label>
+                                <input asp-for="assignmentNotes" aria-required="true" class="form-control my-input">
+                                <span asp-validation-for="assignmentNotes" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="startDate">Choose Start Date</label>
+                                @{
+                                    DateTime defaultStartDate = DateTime.Now.AddMinutes(5);
+                                    string defaultStartDateString = defaultStartDate.ToString("yyyy-MM-ddTHH:mm");
+                                }
+                                <input asp-for="startDate" aria-required="true" type="datetime-local" class="form-control my-input" value="@defaultStartDateString">
+                                <span asp-validation-for="startDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                @{
+                                    DateTime currentDate = DateTime.Now;
+                                    DateTime nextDay = currentDate.AddDays(30);
+                                }
+                                <label asp-for="endDate">Choose End Date</label>
+                                <input asp-for="endDate" aria-required="true" type="datetime-local" class="form-control my-input" value="@nextDay.ToString("yyyy-MM-ddTHH:mm")">
+                                <span asp-validation-for="endDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label class="mr-sm-2" asp-for="objectiveIds">Select Objectives for Assignment</label>
+                                <select asp-for="objectiveIds" aria-required="true" class="custom-select my-input" multiple>
+                                    @foreach (var objective in (List<TrainingObjectives>)(ViewBag.objectives))
+                                    {
+                                        <option value="@objective.objectiveId">@objective.objective.objectiveName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="objectiveIds" class="text-danger"></span>
+                            </div>
+                            <div class="form-group ">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input my-input" name="formFile">
+                                    <label class="custom-file-label" for="formFile">Upload file</label>
+                                </div>
+                            </div>
+                            <div class="form-group mb-4">
+                                <button id="registerSubmit" type="submit" class="btn waves-effect waves-light btn-lg btn-rounded myBtn" style="width:100%">
+                                    Add
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ *@

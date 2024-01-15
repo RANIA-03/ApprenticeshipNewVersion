@@ -1,0 +1,168 @@
+﻿@using Apprenticeship.DTO
+@using Apprenticeship.Data.Entities
+@model TeamLeaderDTO
+<link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/css/core/libs.min.css" />
+<link rel="stylesheet" href="~/assets/css/hope-ui.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/custom.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/dark.min.css" />
+<link rel="stylesheet" href="~/assets/css/customizer.min.css" />
+<link rel="stylesheet" href="~/assets/css/rtl.min.css" />
+
+<div style="display: flex;justify-content: flex-end;margin-right: 190px">
+    <div class=" col-xl-8 col-lg-8">
+        <div class=" card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Edit Team Lead</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="new-user-info">
+                    <!-- ***************************************** -->
+                    <form method="post" action="/TeamLeader/Edited?Id=@Model.Id" class="mt-5">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="fristName">First Name:</label>
+                            <input type="text" class="form-control" asp-for="fristName"  value="@Model.fristName">
+                            <span asp-validation-for="fristName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="secondName">Second Name:</label>
+                            <input type="text" class="form-control" asp-for="secondName" value="@Model.secondName">
+                            <span asp-validation-for="secondName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="thirdName">Third Name:</label>
+                            <input type="text" class="form-control" asp-for="thirdName" value="@Model.thirdName">
+                            <span asp-validation-for="thirdName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="lastName">Last Name:</label>
+                            <input type="text" class="form-control" asp-for="lastName" value="@Model.lastName">
+                            <span asp-validation-for="lastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="PhoneNumber">Mobile Number:</label>
+                            <input type="text" class="form-control" asp-for="PhoneNumber" value="@Model.PhoneNumber">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label">Company:</label>
+                            <select asp-for="companyId" class="selectpicker form-control" data-style="py-0">
+                                <option>Select Company</option>
+                                @foreach (var company in (List<Company>)(ViewBag.companies))
+                                {
+                                    if (@company.companyId == @Model.companyId)
+                                    {
+                                        <option selected value="@company.companyId">@company.companyName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@company.companyId">@company.companyName</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="companyId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="Email">Email:</label>
+                            <input type="email" class="form-control" asp-for="Email" value="@Model.Email">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <a href="/TeamLeader/Index" class="btn btn-danger">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/core/libs.min.js"></script>
+<script src="~/assets/js/core/external.min.js"></script>
+<script src="~/assets/js/charts/widgetcharts.js"></script>
+<script src="~/assets/js/charts/vectore-chart.js"></script>
+<script src="~/assets/js/charts/dashboard.js"></script>
+<script src="~/assets/js/plugins/fslightbox.js"></script>
+<script src="~/assets/js/plugins/setting.js"></script>
+<script src="~/assets/js/plugins/slider-tabs.js"></script>
+<script src="~/assets/js/plugins/form-wizard.js"></script>
+<script src="~/assets/js/hope-ui.js" defer></script>
+
+@* <link rel="stylesheet" type="text/css" href="~/css/form.css" />
+<div class="bigContainer">
+    <div class="container-fluid mt-2">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-8 col-lg-8">
+                <div class="card myContainer">
+                    <div class="card-body">
+                        <h2 style="text-align:center">Edit Team Lead.</h2>
+                        <form method="post" action="/TeamLeader/Edited?Id=@Model.Id" class="mt-5">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="fristName">First Name</label>
+                                <input asp-for="fristName" class="form-control my-input" aria-required="true"
+                                    value="@Model.fristName" />
+                                <span asp-validation-for="fristName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="secondName">Second Name</label>
+                                <input asp-for="secondName" class="form-control my-input" aria-required="true"
+                                    value="@Model.secondName" />
+                                <span asp-validation-for="secondName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="thirdName">Third Name</label>
+                                <input asp-for="thirdName" class="form-control my-input" aria-required="true"
+                                    value="@Model.thirdName" />
+                                <span asp-validation-for="thirdName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="lastName">Last Name</label>
+                                <input asp-for="lastName" class="form-control my-input" aria-required="true"
+                                    value="@Model.lastName" />
+                                <span asp-validation-for="lastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber">Phone Number</label>
+                                <input asp-for="PhoneNumber" class="form-control my-input" aria-required="true"
+                                    value="@Model.PhoneNumber" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email">Email</label>
+                                <input asp-for="Email" class="form-control my-input" aria-required="true"
+                                    value="@Model.Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label class="mr-sm-2" asp-for="companyId">Select Company</label>
+                                <select asp-for="companyId" aria-required="true" class="custom-select my-input">
+                                    @foreach (var company in (List<Company>)(ViewBag.companies))
+                                    {
+                                        if (@company.companyId == @Model.companyId)
+                                        {
+                                            <option selected value="@company.companyId">@company.companyName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@company.companyId">@company.companyName</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="companyId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-4">
+                                <button id="registerSubmit" type="submit"
+                                    class="btn waves-effect waves-light btn-lg btn-rounded myBtn" style="width:100%">
+                                    Edit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ *@

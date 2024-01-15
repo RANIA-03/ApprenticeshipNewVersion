@@ -1,0 +1,85 @@
+﻿@using Apprenticeship.DTO
+@using Apprenticeship.Data.Entities
+@model TrainingObjectives
+<link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/css/core/libs.min.css" />
+<link rel="stylesheet" href="~/assets/css/hope-ui.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/custom.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/dark.min.css" />
+<link rel="stylesheet" href="~/assets/css/customizer.min.css" />
+<link rel="stylesheet" href="~/assets/css/rtl.min.css" />
+<div>
+    <a href="/TrainingObjectives/Index" class="btn btn-link btn-soft-light">
+        <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        Go Back
+    </a>
+</div>
+
+<div style="display: flex;justify-content: flex-end;margin-right: 92px">
+    <div class=" col-xl-9 col-lg-8">
+        <div class=" card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Add Training Objectives</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="new-user-info">
+                    <!-- ***************************************** -->
+                   <form method="post" action="/TrainingObjectives/Edited?objectiveId=@Model.objectiveId&trainingId=@Model.trainingId">
+                        <div class="form-group col-md-12">
+                            <label asp-for="trainingId" class="form-label">Student:</label>
+                            <select asp-for="trainingId" class="selectpicker form-control" data-style="py-0">
+                                <option>Select student</option>
+                                @foreach (var training in (List<Training>)(ViewBag.trainings))
+                                {
+                                    if (@training.trainingId == @Model.trainingId)
+                                    {
+                                        <option selected value="@training.trainingId">@training.student.fristName @training.student.lastName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@training.trainingId">@training.studentId</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label asp-for="objectiveId" class="form-label">Student:</label>
+                            <select asp-for="objectiveId" class="selectpicker form-control" data-style="py-0">
+                                <option>Select Objective</option>
+                                @foreach (var objective in (List<Objective>)(ViewBag.objectives))
+                                {
+                                    if (@objective.objectiveId == @Model.objectiveId)
+                                    {
+                                        <option selected value="@objective.objectiveId">@objective.objectiveName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@objective.objectiveId">@objective.objectiveName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <a href="/TrainingObjectives/Index" class="btn btn-danger">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/core/libs.min.js"></script>
+<script src="~/assets/js/core/external.min.js"></script>
+<script src="~/assets/js/charts/widgetcharts.js"></script>
+<script src="~/assets/js/charts/vectore-chart.js"></script>
+<script src="~/assets/js/charts/dashboard.js"></script>
+<script src="~/assets/js/plugins/fslightbox.js"></script>
+<script src="~/assets/js/plugins/setting.js"></script>
+<script src="~/assets/js/plugins/slider-tabs.js"></script>
+<script src="~/assets/js/plugins/form-wizard.js"></script>
+<script src="~/assets/js/hope-ui.js" defer></script>

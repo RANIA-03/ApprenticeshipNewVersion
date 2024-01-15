@@ -1,0 +1,40 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Log out";
+}
+
+<header>
+    <h1>@ViewData["Title"]</h1>
+    @{
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <button type="button" class="nav-link btn btn-link text-dark" onclick="logout()">Click here to Logout</button>
+            <script>
+                function logout() {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You are about to log out.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, logout!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Submit the logout form
+                            document.forms[0].submit();
+                        }
+                    });
+                }
+                window.onload = function () {
+                    logout();
+                };
+            </script>
+        }
+        else
+        {
+            <p>You have successfully logged out of the application.</p>
+        }
+    }
+</header>

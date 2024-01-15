@@ -1,0 +1,106 @@
+﻿@using Apprenticeship.DTO
+@using Apprenticeship.Data.Entities
+@model TrainingDTO
+<link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+<link rel="stylesheet" href="~/assets/css/core/libs.min.css" />
+<link rel="stylesheet" href="~/assets/css/hope-ui.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/custom.min.css?v=2.0.0" />
+<link rel="stylesheet" href="~/assets/css/dark.min.css" />
+<link rel="stylesheet" href="~/assets/css/customizer.min.css" />
+<link rel="stylesheet" href="~/assets/css/rtl.min.css" />
+
+<div style="display: flex;justify-content: flex-end;margin-right: 190px;margin-top:40px">
+    <div class=" col-xl-8 col-lg-8">
+        <div class=" card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Create Training</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="new-user-info">
+                    <!-- ***************************************** -->
+                     <form method="post" action="/Training/Insert" class="mt-5">
+                            <div class="form-group col-md-12">
+							    <label class="form-label" asp-for="studentId">Select Student</label>
+                                <select class="selectpicker form-control" data-style="py-0" asp-for="studentId" aria-required="true">
+                                        <option>Student</option>
+                                    @foreach (var student in (List<Student>)(ViewBag.students))
+                                    {
+                                        <option value="@student.Id">@student.fristName @student.lastName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="studentId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="form-label" asp-for="schoolSupervisorId">Select Supervisor</label>
+                                <select  class="selectpicker form-control" data-style="py-0" asp-for="schoolSupervisorId" aria-required="true">
+                                    <option>Supervisor</option>
+                                    @foreach (var schoolSupervisor in (List<SchoolSupervisor>)(ViewBag.schoolSupervisors))
+                                    {
+                                        <option value="@schoolSupervisor.Id">@schoolSupervisor.fristName @schoolSupervisor.lastName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="schoolSupervisorId" class="text-danger"></span>
+                            </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="teamLeaderId">Select Team Leader</label>
+                            <select  class="selectpicker form-control" data-style="py-0" asp-for="teamLeaderId" aria-required="true">
+                                <option>Team Leader</option>
+                                @foreach (var teamLeader in (List<TeamLeader>)(ViewBag.teamLeaders))
+                                {
+                                    <option value="@teamLeader.Id">@teamLeader.fristName @teamLeader.lastName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="teamLeaderId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            @{
+                                DateTime defaultStartDate = DateTime.Now.AddMinutes(5);
+                                string defaultStartDateString = defaultStartDate.ToString("yyyy-MM-ddTHH:mm");
+                            }
+                            <label class="form-label" asp-for="startDate">Choose Start Date</label>
+                            <input type="datetime-local" class="form-control" asp-for="startDate" aria-required="true"
+								   value="@defaultStartDateString" />
+                            <span asp-validation-for="startDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            @{
+                                DateTime currentDate = DateTime.Now;
+                                DateTime nextDay = currentDate.AddDays(30);
+                            }
+                            <label class="form-label" asp-for="endDate">Choose End Date</label>
+                            <input type="datetime-local" class="form-control" asp-for="endDate" aria-required="true"
+                                   value="@nextDay.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="endDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" asp-for="objectiveIds">Select Objectives</label>
+                            <select class="selectpicker form-control" data-style="py-0" asp-for="objectiveIds" aria-required="true" multiple>
+                                <option>Objective</option>
+                                @foreach (var objective in (List<Objective>)(ViewBag.objectives))
+                                {
+                                    <option value="@objective.objectiveId">@objective.objectiveName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="objectiveIds" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <a href="/Training/Index" class="btn btn-danger">Cancel</a>
+                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/core/libs.min.js"></script>
+<script src="~/assets/js/core/external.min.js"></script>
+<script src="~/assets/js/charts/widgetcharts.js"></script>
+<script src="~/assets/js/charts/vectore-chart.js"></script>
+<script src="~/assets/js/charts/dashboard.js"></script>
+<script src="~/assets/js/plugins/fslightbox.js"></script>
+<script src="~/assets/js/plugins/setting.js"></script>
+<script src="~/assets/js/plugins/slider-tabs.js"></script>
+<script src="~/assets/js/plugins/form-wizard.js"></script>
+<script src="~/assets/js/hope-ui.js" defer></script>
