@@ -7,7 +7,18 @@
 <link rel="stylesheet" href="~/assets/css/dark.min.css" />
 <link rel="stylesheet" href="~/assets/css/customizer.min.css" />
 <link rel="stylesheet" href="~/assets/css/rtl.min.css" />
-<div style="display: flex;justify-content: flex-end;">
+<style>
+    .custom-padding {
+     display: flex;justify-content: flex-end;
+    }
+
+    @@media (max-width: 1024px) {
+        .custom-padding {
+            display: flex;
+            justify-content: center;
+        }
+    }</style>
+<div class="custom-padding ">
     <div class="col-md-10">
         <div id="profile-profile" class="tab-pane fade active show" role="tabpanel" style="margin-top: 45px;">
             <div class="card">

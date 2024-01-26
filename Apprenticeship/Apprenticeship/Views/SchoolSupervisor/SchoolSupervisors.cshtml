@@ -6,9 +6,20 @@
 		background-color: rgb(197, 228, 235) !important;
 	}
 </style>
-<div style="    padding-left: 294px;
-    margin-top: 40px;
-    padding-right: 50px;">
+<style>
+	.custom-padding {
+		padding-left: 294px;
+		margin-top: 40px;
+		padding-right: 50px;
+	}
+
+	@@media (max-width: 1024px) {
+		.custom-padding {
+			padding-left: 0;
+		}
+	}
+</style>
+<div class="custom-padding">
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
@@ -23,7 +34,7 @@
 								<th>Name</th>
 								<th>PhoneNumber</th>
 								<th>Email</th>
-								<th>School</th>
+								<th>University</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -42,7 +53,7 @@
 								<th>Name</th>
 								<th>PhoneNumber</th>
 								<th>Email</th>
-								<th>School</th>
+								<th>University</th>
 							</tr>
 						</tfoot>
 					</table>

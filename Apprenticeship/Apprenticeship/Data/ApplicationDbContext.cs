@@ -22,6 +22,7 @@ namespace Apprenticeship.Data
 		public DbSet<AssignmentObjectives> assignmentObjectives { get; set; }
 		public DbSet<ReportsLog> reportsLogs { get; set; }
 		public DbSet<Document> documents { get; set; }
+		public DbSet<ContactMessage> contactMessages { get; set; }
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
 		{

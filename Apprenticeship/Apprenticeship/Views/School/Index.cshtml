@@ -6,9 +6,20 @@
 		background-color: rgb(197, 228, 235) !important;
 	}
 </style>
-<div style="    padding-left: 294px;
-    margin-top: 40px;
-    padding-right: 50px;">
+<style>
+	.custom-padding {
+		padding-left: 294px;
+		margin-top: 40px;
+		padding-right: 50px;
+	}
+
+	@@media (max-width: 1024px) {
+		.custom-padding {
+			padding-left: 0;
+		}
+	}
+</style>
+<div class="custom-padding">
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
@@ -20,15 +31,15 @@
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
 								<path d="M8 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13A.5.5 0 0 1 8 1zm7 7a.5.5 0 0 1-.5.5H1a.5.5 0 0 1 0-1h13.5a.5.5 0 0 1 .5.5z" />
 							</svg>
-							School
+							University
 						</a>
 					</div>
 					<table id="zero_config" class="table table-striped table-bordered no-wrap">
 						<thead>
 							<tr>
-								<th>School Name</th>
-								<th>School Address</th>
-								<th>School Short Name</th>
+								<th>University Name</th>
+								<th>University Address</th>
+								<th>University Short Name</th>
 								<th>Edit || Delete</th>
 							</tr>
 						</thead>
@@ -84,9 +95,9 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<th>School Name</th>
-								<th>School Address</th>
-								<th>School Short Name</th>
+								<th>University Name</th>
+								<th>University Address</th>
+								<th>University Short Name</th>
 								<th>Edit || Delete</th>
 							</tr>
 						</tfoot>

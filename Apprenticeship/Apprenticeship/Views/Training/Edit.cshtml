@@ -40,9 +40,9 @@
                             <span asp-validation-for="studentId" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="form-label" asp-for="schoolSupervisorId">Select Supervisor</label>
+                            <label class="form-label" asp-for="schoolSupervisorId">Select University Mentor</label>
                             <select  class="selectpicker form-control" data-style="py-0" asp-for="schoolSupervisorId" aria-required="true">
-                                <option>Supervisor</option>
+                                <option>University Mentor</option>
                                 @foreach (var schoolSupervisor in (List<SchoolSupervisor>)(ViewBag.schoolSupervisors))
                                 {
                                     if (Model.schoolSupervisorId == schoolSupervisor.Id)
@@ -58,9 +58,9 @@
                             <span asp-validation-for="schoolSupervisorId" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="form-label" asp-for="teamLeaderId">Select Team Leader</label>
+                            <label class="form-label" asp-for="teamLeaderId">Select Work Mentor</label>
                             <select  class="selectpicker form-control" data-style="py-0" asp-for="teamLeaderId" aria-required="true">
-                                <option>Team Leader</option>
+                                <option>Work Mentor</option>
                                 @foreach (var teamLeader in (List<TeamLeader>)(ViewBag.teamLeaders))
                                 {
                                     if (Model.teamLeaderId == teamLeader.Id)

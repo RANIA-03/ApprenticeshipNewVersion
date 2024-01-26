@@ -6,9 +6,20 @@
 		background-color: rgb(197, 228, 235) !important;
 	}
 </style>
-<div style="    padding-left: 294px;
-    margin-top: 40px;
-    padding-right: 50px;">
+<style>
+	.custom-padding {
+		padding-left: 294px;
+		margin-top: 40px;
+		padding-right: 50px;
+	}
+
+	@@media (max-width: 1024px) {
+		.custom-padding {
+			padding-left: 0;
+		}
+	}
+</style>
+<div class="custom-padding">
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
@@ -21,7 +32,7 @@
 						<thead>
 							<tr>
 								<th>Student Name</th>
-								<th>School Supervisor Name</th>
+								<th>University Mentor Name</th>
 								<th>Start Date</th>
 								<th>End Date</th>
 								<th>Objectives</th>
@@ -50,7 +61,7 @@
 						<tfoot>
 							<tr>
 								<th>Student Name</th>
-								<th>School Supervisor Name</th>
+								<th>University Mentor Name</th>
 								<th>Start Date</th>
 								<th>End Date</th>
 								<th>Objectives</th>

@@ -12,6 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
+using NuGet.Protocol.Plugins;
+using Apprenticeship.Data.Entities;
+using Apprenticeship.Data.Repository.ContactMessageRepo;
+using Microsoft.EntityFrameworkCore;
+using MimeKit;
 
 namespace Apprenticeship.Controllers
 {
@@ -27,6 +32,7 @@ namespace Apprenticeship.Controllers
         IAssignmentRepository assignmentRepo;
         IReportsLogRepository reportsLogRepo;
         ICompanyRepository companyRepo;
+        IContactMessageRepository contactMessageRepo;
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context,
             ITrainingRepository trainingRepo,
             IStudentRepository studentRepo,
@@ -35,7 +41,8 @@ namespace Apprenticeship.Controllers
             IReportRepository reportRepo,
             IAssignmentRepository assignmentRepo,
             IReportsLogRepository reportsLogRepo,
-            ICompanyRepository companyRepo)
+            ICompanyRepository companyRepo,
+            IContactMessageRepository contactMessageRepo)
         {
             _logger = logger;
             this.context = context;
@@ -47,9 +54,14 @@ namespace Apprenticeship.Controllers
             this.assignmentRepo = assignmentRepo;
             this.reportsLogRepo = reportsLogRepo;
             this.companyRepo = companyRepo;
+            this.contactMessageRepo = contactMessageRepo;
         }
         public IActionResult Index()
         {
+            if (TempData.ContainsKey("SuccessMessage"))
+            {
+                ViewBag.SweetAlert = TempData["SuccessMessage"] as string;
+            }
             var Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (Id != null)
             {
@@ -95,6 +107,14 @@ namespace Apprenticeship.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        public IActionResult Contact(ContactMessage contactMessage)
+        {
+            contactMessageRepo.AddContactMessage(contactMessage);
+            SendContactMessageConfirmationEmail(contactMessage);
+            TempData["SuccessMessage"] = "Message Sent Successfully";
+            return RedirectToAction("Index");
+        }
         public IActionResult Privacy()
         {
             return View();
@@ -104,6 +124,35 @@ namespace Apprenticeship.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public async Task SendContactMessageConfirmationEmail(ContactMessage contactMessage)
+        {
+            var email = new MimeMessage();
+            email.From.Add(new MailboxAddress(contactMessage.FullName, "apprenticeship.company@gmail.com"));
+            email.To.Add(new MailboxAddress(contactMessage.FullName, contactMessage.EmailAddress));
+            email.Subject = contactMessage.EmailSubject;
+
+            var bodyBuilder = new MimeKit.BodyBuilder();
+            bodyBuilder.TextBody = $"Dear {contactMessage.FullName},\n\n"
+                             + "Thank you for reaching out!\n"
+                             + $"Your message has been received with the following details:\n"
+                             + $"Email Address: {contactMessage.EmailAddress}\n"
+                             + $"Mobile Number: {contactMessage.MobileNumber}\n"
+                             + $"Email Subject: {contactMessage.EmailSubject}\n"
+                             + $"Message: {contactMessage.Msg}\n\n"
+                             + "We appreciate your interest and will get back to you as soon as possible!\n\n"
+                             + "Best regards,\n"
+                             + "Apprenticeship Team";
+
+            email.Body = bodyBuilder.ToMessageBody();
+            using (var smtp = new MailKit.Net.Smtp.SmtpClient())
+            {
+                smtp.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+                smtp.Connect("smtp.gmail.com", 587, false);
+                smtp.Authenticate("apprenticeship.company@gmail.com", "scfaxbsmuxephejg");
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+            }
         }
     }
 }

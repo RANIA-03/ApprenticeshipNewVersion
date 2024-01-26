@@ -15,7 +15,18 @@
 }
 <!-- ***************************Dashboard*************************** -->
 @model Person
-<div style="padding-left: 280px;">
+<style>
+    .custom-padding {
+        padding-left: 280px;
+    }
+
+    @@media (max-width: 1019px) {
+        .custom-padding {
+            padding-left: 0;
+        }
+    }
+</style>
+<div class="custom-padding">
 <div class="page-breadcrumb" style="padding: 30px 16px 0;">
     <div class="row">
         <div class="col-7 align-self-center">
@@ -77,8 +88,7 @@
                             <h2 class="text-dark mb-1 font-weight-medium">@((ViewBag.schoolSupervisors as List<Apprenticeship.Data.Entities.SchoolSupervisor>)?.Count ?? 0)</h2>
                         </div>
                         <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">
-                            School
-                            Supervisors
+                                University Mentors
                         </h6>
                     </div>
                     <div class="ml-auto mt-md-3 mt-lg-0">
@@ -93,7 +103,7 @@
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
                         <h2 class="text-dark mb-1 font-weight-medium">@((ViewBag.teamLeaders as List<Apprenticeship.Data.Entities.TeamLeader>)?.Count ?? 0)</h2>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Team Leaders</h6>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Work Mentors</h6>
                     </div>
                     <div class="ml-auto mt-md-3 mt-lg-0">
                         <span class="opacity-7 text-muted"><i data-feather="star"></i></span>
@@ -197,28 +207,34 @@
             }
         }
 
-        @foreach (var report in (List<Report>)(ViewBag.lastThreeReports))
-        {
-            <div class="col-md-4">
-                <div class="card border-danger">
-                    <div class="card-header" style="background-color: @GetCardColor(report.reportStatusId)">
-                        <h4 class="mb-0 text-white">@report.reportName</h4>
+            <div class="row card-container">
+                @foreach (var report in (List<Report>)(ViewBag.lastThreeReports))
+                {
+                    <div class="col-md-4">
+                        <div class="card border-danger h-100 d-flex flex-column">
+                            <div class="card-header" style="background-color: @GetCardColor(report.reportStatusId)">
+                                <h4 class="mb-0 text-white">@report.reportName</h4>
+                            </div>
+                            <div class="card-body flex-grow-1">
+                                <h3 class="card-title">@report.reportNotes</h3>
+                                <p class="card-text">@report.reportDescription</p>
+                            </div>
+                            @if (report.document != null)
+                            {
+                                <div class="card-footer">
+                                    <a href="/Report/GetFile?documentId=@report.document.documentId" target="_blank" class="btn btn-secondary">Document Attached</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="card-footer">
+                                    <span>No Document Attached</span>
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h3 class="card-title">@report.reportNotes</h3>
-                        <p class="card-text">@report.reportDescription</p>
-                        @if (report.document != null)
-                        {
-                            <a href="/Report/GetFile?documentId=@report.document.documentId" target="_blank" class="btn btn-secondary">Document Attached</a>
-                        }
-                        else
-                        {
-                            <span>No Document Attached</span>
-                        }
-                    </div>
-                </div>
+                }
             </div>
-        }
     </div>
     </div>
-</div>
+</div>    </div>

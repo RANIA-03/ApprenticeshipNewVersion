@@ -13,7 +13,7 @@
         <div class=" card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                    <h4 class="card-title">Add School</h4>
+                    <h4 class="card-title">Add University</h4>
                 </div>
             </div>
             <div class="card-body">
@@ -21,17 +21,17 @@
                     <!-- ***************************************** -->
                     <form method="post" action="/School/Insert" class="mt-5">
                         <div class="form-group col-md-12">
-                            <label class="form-label" asp-for="schoolName">School Name:</label>
+                            <label class="form-label" asp-for="schoolName">University Name:</label>
                             <input type="text" class="form-control" asp-for="schoolName" placeholder=" ">
                             <span asp-validation-for="schoolName" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="form-label" asp-for="schoolAddress">School Address:</label>
+                            <label class="form-label" asp-for="schoolAddress">University Address:</label>
                             <input type="text" class="form-control" asp-for="schoolAddress" placeholder=" ">
                             <span asp-validation-for="schoolAddress" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="form-label" asp-for="shortName">Short Name:</label>
+                            <label class="form-label" asp-for="shortName">University Short Name:</label>
                             <input type="text" class="form-control" asp-for="shortName" placeholder=" ">
                             <span asp-validation-for="shortName" class="text-danger"></span>
                         </div>

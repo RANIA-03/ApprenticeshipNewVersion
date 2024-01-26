@@ -48,9 +48,9 @@
 
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="form-label">School:</label>
+                            <label class="form-label">University:</label>
                             <select asp-for="schoolId" class="selectpicker form-control" data-style="py-0">
-                                <option>Select School</option>
+                                <option>Select University</option>
                                 @foreach (var school in (List<School>)(ViewBag.schools))
                                 {
                                     if (@school.schoolId == @Model.schoolId)

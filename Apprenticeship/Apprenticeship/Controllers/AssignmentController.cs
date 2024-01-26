@@ -6,9 +6,11 @@ using Apprenticeship.Data.Repository.ObjectiveRepo;
 using Apprenticeship.Data.Repository.StudentRepo;
 using Apprenticeship.Data.Repository.TeamLeaderRepo;
 using Apprenticeship.Data.Repository.TrainingObjectivesRepo;
+using Apprenticeship.Data.Repository.TrainingRepo;
 using Apprenticeship.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using System.Security.Claims;
 
 namespace Apprenticeship.Controllers
@@ -22,7 +24,8 @@ namespace Apprenticeship.Controllers
         ITrainingObjectivesRepository trainingObjectivesRepo;
         IStudentRepository studentRepo;
         ITeamLeaderRepository teamLeaderRepo;
-        public AssignmentController(IAssignmentRepository assignmentRepo, IDocumentRepository documentRepo, IObjectiveRepository objectiveRepo, IAssignmentObjectivesRepository assignmentObjectivesRepo, ITrainingObjectivesRepository trainingObjectivesRepo, ITeamLeaderRepository teamLeaderRepo)
+        ITrainingRepository trainingRepo;
+        public AssignmentController(ITrainingRepository trainingRepo,IAssignmentRepository assignmentRepo, IDocumentRepository documentRepo, IObjectiveRepository objectiveRepo, IAssignmentObjectivesRepository assignmentObjectivesRepo, ITrainingObjectivesRepository trainingObjectivesRepo, ITeamLeaderRepository teamLeaderRepo)
         {
             this.assignmentRepo = assignmentRepo;
             this.documentRepo = documentRepo;   
@@ -31,6 +34,8 @@ namespace Apprenticeship.Controllers
             this.trainingObjectivesRepo = trainingObjectivesRepo;
             this.studentRepo = studentRepo;
             this.teamLeaderRepo = teamLeaderRepo;
+            this.trainingRepo = trainingRepo;
+
         }
         //Read From Database
         [Authorize(Roles = "ADMIN")]
@@ -64,6 +69,7 @@ namespace Apprenticeship.Controllers
                 assignment_.trainingId = assignment.trainingId;
                 assignment_.assignmentId = assignment.assignmentId;
                 assignmentRepo.AddAssignment(assignment_, assignment.objectiveIds);
+                SendNewAssignmentEmail(assignment_);
                 var assignmentId = assignment_.assignmentId;
                 //Adding document to DB
                 foreach (var file in formFile)
@@ -83,12 +89,44 @@ namespace Apprenticeship.Controllers
                         documentRepo.AddDocument(document);
                     }
                 }
+                
                 return RedirectToAction("Assignments", "TeamLeader", new { trainingId = assignment.trainingId });
             }
             ViewBag.objectives = trainingObjectivesRepo.GetAllTrainingObjectives().Where(t => t.trainingId == assignment.trainingId).ToList();
             return View("Add",assignment);
         }
-		[Authorize(Roles = "TEAMLEADER, STUDENT, SCHOOLSUPERVISOR")]
+        public async Task SendNewAssignmentEmail(Assignment assignment)
+        {
+            Training training = trainingRepo.GetTraining(assignment.trainingId);
+
+            var email = new MimeMessage();
+            email.From.Add(new MailboxAddress("Apprenticeship Team", "apprenticeship.company@gmail.com"));
+            email.To.Add(new MailboxAddress(training.student.fristName, training.student.Email));
+            email.Subject = "New Assignment Notification"; 
+
+            var bodyBuilder = new MimeKit.BodyBuilder();
+            bodyBuilder.TextBody = $"Dear {training.student.fristName},\n\n"
+                                    + $"A new assignment '{assignment.assignmentTitle}' has been assigned to you.\n"
+                                    + $"Assignment Description: {assignment.assignmentDescription}\n"
+                                    + $"Start Date: {assignment.startDate}\n"
+                                    + $"End Date: {assignment.endDate}\n"
+                                    + $"Work Mentor: {assignment.training.teamLeader.fristName}{assignment.training.teamLeader.lastName}\n\n"
+                                    + "Best regards,\n"
+                                    + "Apprenticeship Team";
+
+            email.Body = bodyBuilder.ToMessageBody();
+
+            using (var smtp = new MailKit.Net.Smtp.SmtpClient())
+            {
+                smtp.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+                smtp.Connect("smtp.gmail.com", 587, false);
+                smtp.Authenticate("apprenticeship.company@gmail.com", "scfaxbsmuxephejg");
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+            }
+        }
+
+        [Authorize(Roles = "TEAMLEADER, STUDENT, SCHOOLSUPERVISOR")]
 		public FileStreamResult GetFile(long documentId)
 		{
             var file = documentRepo.GetDocument(documentId);

@@ -16,6 +16,7 @@ using Apprenticeship.Data.Repository.AssignmentObjectivesRepo;
 using Apprenticeship.Data.Repository.ReportStatusRepo;
 using Apprenticeship.Data.Repository.ReportsLogRepo;
 using Apprenticeship.Data.Repository.DocumentRepo;
+using Apprenticeship.Data.Repository.ContactMessageRepo;
 
 namespace Apprenticeship
 {
@@ -49,6 +50,7 @@ namespace Apprenticeship
 			builder.Services.AddTransient<IReportsLogRepository, ReportsLogRepository>();
 			builder.Services.AddTransient<IAssignmentObjectivesRepository, AssignmentObjectivesRepository>();
 			builder.Services.AddTransient<IDocumentRepository, DocumentRepository>();
+			builder.Services.AddTransient<IContactMessageRepository, ContactMessageRepository>();
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
